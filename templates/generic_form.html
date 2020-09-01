@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    {{ form | crispy }}
+    {% if request.path == '/login/' %}
+    <button type="submit" class="btn btn-success">Log In!</button>
+    <a href='/signup/'>SignUp</a>
+    {% elif request.path == '/signup/' %}
+    <button type="submit" class="btn btn-success">Sign Up!</button>
+    {% else %}
+    <button type="submit" class="btn btn-success">Submit</button>
+    {% endif %}
+  </form>
+{% endblock %}
