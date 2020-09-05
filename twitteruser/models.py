@@ -5,7 +5,8 @@ from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 class TwitterUser(AbstractUser):
-    pass
+    following = models.ManyToManyField("self", symmetrical=False)
+    
 
 
 

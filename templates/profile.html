@@ -1,0 +1,8 @@
+
+<h1>User Profile</h1>
+{{current_user}}
+<p>
+{% for tweet in tweets reversed %}
+{{tweet.tweet}}
+</p>
+{%endfor%}

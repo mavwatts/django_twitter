@@ -3,12 +3,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from twitteruser.forms import SignupForm
 from twitteruser.models import TwitterUser
+from tweet.models import Tweet
 
 # Create your views here.
 @login_required
 def index_view(request):
-    return render(request, 'index.html')
-
+    tweets = Tweet.objects.all()
+    return render(request, 'index.html', {"tweets": tweets})
+    
 def signup_view(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
@@ -24,3 +26,15 @@ def signup_view(request):
 
     form = SignupForm()
     return render(request, "generic_form.html", {'form': form})
+
+
+def profile_view(request, user_id):
+    current_user = TwitterUser.objects.filter(id=user_id).first()
+    tweets = Tweet.objects.filter(tweet_maker=current_user)
+    return render(request, 'profile.html', {'current_user': current_user, 'tweets': tweets} )
+
+def following(request, follow_id):
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+def unfollowing(request, unfollow_id):
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
