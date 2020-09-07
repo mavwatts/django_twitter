@@ -30,7 +30,7 @@ urlpatterns = [
     path('profile/<int:user_id>/', main_view.profile_view), 
     path('add_tweet/', tweet_view.add_tweet_view),
     path('notifications/', notifications.notification_view),
-    path('following/<int:follow_id>/', main_view.following),
-    path('unfollowing/<int:unfollow_id>/', main_view.unfollowing),
+    path('following/<int:follow_id>/', main_view.following_view),
+    path('unfollowing/<int:unfollow_id>/', main_view.unfollowing_view),
     path('admin/', admin.site.urls),
 ]

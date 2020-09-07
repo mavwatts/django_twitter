@@ -1,8 +1,14 @@
-
 <h1>User Profile</h1>
 {{current_user}}
+{% if current_user != user %}
+<a href='/following/{{current_user.id}}/'><p>Follow</p></a>
+<a href='/unfollowing/{{current_user.id}}/'><p>Unfollow</p></a>
+{% endif %}
+<h1>Following Count: {{follow_count}}</h1>
+<h1>Tweet Count: {{tweets.count}}</h1>
 <p>
 {% for tweet in tweets reversed %}
-{{tweet.tweet}}
+<a href="tweet/{{tweet.tweet.id}}/">{{tweet.tweet}}</a>
 </p>
 {%endfor%}
+

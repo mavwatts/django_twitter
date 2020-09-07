@@ -31,10 +31,19 @@ def signup_view(request):
 def profile_view(request, user_id):
     current_user = TwitterUser.objects.filter(id=user_id).first()
     tweets = Tweet.objects.filter(tweet_maker=current_user)
-    return render(request, 'profile.html', {'current_user': current_user, 'tweets': tweets} )
+    follow_count = len(current_user.following.all())
+    return render(request, 'profile.html', {'current_user': current_user, 'tweets': tweets, 'follow_count': follow_count})
 
-def following(request, follow_id):
+def following_view(request, follow_id):
+    logged_in_user = TwitterUser.objects.get(username = request.user.username)
+    add_user = TwitterUser.objects.filter(id=follow_id).first()
+    logged_in_user.following.add(add_user)
+    logged_in_user.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
-def unfollowing(request, unfollow_id):
+def unfollowing_view(request, unfollow_id):
+    logged_in_user = TwitterUser.objects.get(username = request.user.username)
+    remove_user = TwitterUser.objects.filter(id=unfollow_id).first()
+    logged_in_user.following.remove(remove_user)
+    logged_in_user.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

@@ -1,0 +1,14 @@
+<h1>Notifications</h1>
+
+{% for notify in new_notifications %}
+{{notify}}
+{%endfor%}
+
+{{notification_count}}
+
+{% for category in notify %}
+<p>Sent by: @{{ category.msg_content.tweet_maker }} 
+<br>
+Message: {{category.msg_content}} 
+</p>
+{% endfor %}
