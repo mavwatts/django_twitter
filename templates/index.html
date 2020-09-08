@@ -10,8 +10,10 @@
         <a href='/add_tweet/'><button>Add Tweet</button></a>
         <a href='/notifications/'><button>Notification</button></a>
         <a href='/logout/'><button>Log Out</button></a>
+
+        {{notification_count}}
         <h1>{{headline}}</h1> 
-        {%for comment in tweets reversed%}
+        {%for comment in twitterfeed%}
         <a href="/tweet/{{comment.id}}/">{{comment.tweet}}</a>
         <a href='/profile/{{comment.tweet_maker.id}}/'><p>{{ comment.tweet_maker }}</p></a>
         <hr>

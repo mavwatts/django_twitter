@@ -4,12 +4,17 @@ from django.contrib.auth import login
 from twitteruser.forms import SignupForm
 from twitteruser.models import TwitterUser
 from tweet.models import Tweet
+from notification.models import Notification
 
 # Create your views here.
 @login_required
 def index_view(request):
-    tweets = Tweet.objects.all()
-    return render(request, 'index.html', {"tweets": tweets})
+    tweets = Tweet.objects.filter(tweet_maker=request.user)
+    follow_list = Tweet.objects.filter(tweet_maker__in=request.user.following.all())
+    twitterfeed = tweets|follow_list
+    twitterfeed = twitterfeed.order_by('time_dates')
+    notification_count = Notification.objects.filter(receiver__id = request.user.id, notify_flag=False)
+    return render(request, 'index.html', {"tweets": tweets, 'follow_list': follow_list, 'twitterfeed': twitterfeed, "notification_count": notification_count})
     
 def signup_view(request):
     if request.method == 'POST':
